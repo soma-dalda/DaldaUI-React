@@ -1,6 +1,5 @@
 import styled from '@emotion/styled'
 import { ListProps } from '.'
-import { getTypoStyle, Typography } from '../../../styles/Typography'
 
 const List = styled.ul<ListProps>`
   width: ${({ width }) => width ?? '100%'};
@@ -21,7 +20,6 @@ const ListItem = styled.li`
 `
 
 const ListTitle = styled.li`
-  ${getTypoStyle(Typography.Title2)}
   font-size: 1.3em;
   height: 60%;
 `
