@@ -135,4 +135,9 @@ export const GlobalStyles = css`
       fill: inherit;
     }
   }
+
+  html,
+  body {
+    font-size: 16px;
+  }
 `
