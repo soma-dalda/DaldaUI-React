@@ -1,0 +1,106 @@
+{
+  "name": "@jaewoong2/dds",
+  "version": "0.0.1",
+  "description": "Dalda Design System for Dalda",
+  "contributors": [
+    {
+      "name": "@jaewoong2",
+      "email": "jwisgenius@naver.com"
+    }
+  ],
+  "keywords": [
+    "modal",
+    "react"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaewoong2/-woongs-dds.git"
+  },
+  "license": "MIT",
+  "main": "build/index.js",
+  "module": "build/index.es.js",
+  "types": "build/index.d.ts",
+  "files": [
+    "build"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "lint": "eslint ./src/ --ext .ts,.tsx --config .eslintrc.js",
+    "git": "git add . && git commit -m 'publish' && git push",
+    "build": "tsc --emitDeclarationOnly & rollup -c",
+    "publish:patch": "npm run git && npm run build && npm version patch && npm publish",
+    "publish:minor": "npm run git && npm run build && npm version minor && npm publish",
+    "storybook": "start-storybook -p 6006 --no-manager-cache",
+    "build-storybook": "build-storybook",
+    "test": "react-scripts test",
+    "chromatic": "npx chromatic --project-token=CHROMATIC_PROJECT_TOKEN"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.5",
+    "@react-theming/storybook-addon": "^1.1.3",
+    "@rollup/plugin-commonjs": "^21.0.1",
+    "@rollup/plugin-node-resolve": "^13.1.1",
+    "@storybook/addon-actions": "^6.4.9",
+    "@storybook/addon-essentials": "^6.4.9",
+    "@storybook/addon-links": "^6.4.9",
+    "@storybook/addon-postcss": "^2.0.0",
+    "@storybook/builder-webpack5": "^6.5.0-alpha.29",
+    "@storybook/manager-webpack5": "^6.5.0-alpha.29",
+    "@storybook/react": "^6.4.9",
+    "@types/react": "^18.0.8",
+    "@typescript-eslint/eslint-plugin": "^5.8.0",
+    "@typescript-eslint/parser": "^5.8.0",
+    "babel-loader": "^8.2.3",
+    "babel-preset-react-app": "^10.0.0",
+    "chromatic": "^6.6.4",
+    "eslint": "^8.5.0",
+    "eslint-config-airbnb-typescript": "^16.1.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-import-resolver-typescript": "^2.7.1",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-react": "^7.27.1",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "eslint-plugin-standard": "^5.0.0",
+    "eslint-plugin-storybook": "^0.5.11",
+    "react": "^17.0.2",
+    "react-docgen-typescript-loader": "^3.7.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "^5.0.1",
+    "rollup": "^2.61.1",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-typescript2": "^0.31.1",
+    "typescript": "^4.5.4"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.5.0"
+  },
+  "peerDependencies": {
+    "react": ">=16",
+    "react-dom": ">=16",
+    "react-is": ">=16"
+  },
+  "prettier": {
+    "parser": "typescript",
+    "semi": false,
+    "singleQuote": true,
+    "printWidth": 120,
+    "tabWidth": 2,
+    "useTabs": false,
+    "trailingComma": "all",
+    "endOfLine": "lf",
+    "bracketSpacing": true
+  },
+  "bugs": {
+    "url": "https://github.com/jaewoong2/-woongs-dds/issues"
+  },
+  "readme": "ERROR: No README data found!",
+  "homepage": "https://github.com/jaewoong2/-woongs-dds#readme"
+}
