@@ -13,7 +13,7 @@ export default {
   argTypes: {},
 } as ComponentMeta<typeof Gallery>
 
-const GalleryTest = ({ ...args }) => {
+export const GalleryTest = ({ ...args }) => {
   return (
     <Gallery {...args}>
       <Gallery.Image href="/" src={shortSrc}>

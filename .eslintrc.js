@@ -34,6 +34,7 @@ module.exports = {
     'react/require-default-props': 'off',
     'react/react-in-jsx-scope': 0,
     'import/no-extraneous-dependencies': 0,
+    '@typescript-eslint/no-use-before-define': 0,
     'no-shadow': 0,
     '@typescript-eslint/no-empty-function': 'off',
     'react/prop-types': 0,

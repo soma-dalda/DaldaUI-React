@@ -13,9 +13,10 @@ export const color = {
 
 export const breakpoint = {
   maxWidth: '1024px',
+  width: '500px',
 }
 
-export const borderRaidus = {
+export const borderRadius = {
   searchInput: '16px',
   resultInfo: '14px',
   bottomSheet: '30px 30px 0 0',
