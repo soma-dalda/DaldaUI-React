@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { Skeleton } from '../Skeleton'
+import { Skeleton } from '../index'
 
 export type ImageProps = {
   placeholderSrc?: string
@@ -19,7 +19,7 @@ const getSkeletonHeight = (height?: string) => {
  * eager: 페이지에서의 위치에 관계없이 리소스를 즉시 로드합니다.
  */
 const ProgressiveImage = React.forwardRef<HTMLImageElement, ImageProps>(
-  ({ src, onLoad, onError, isLoading, ...props }, ref) => {
+  ({ alt, src, onLoad, onError, isLoading, ...props }, ref) => {
     const [isImageLoading, setIsImageLoading] = useState(true)
 
     const handleLoaded = useCallback(
@@ -53,7 +53,7 @@ const ProgressiveImage = React.forwardRef<HTMLImageElement, ImageProps>(
           <img
             ref={ref}
             src={src}
-            alt={'modal-img'}
+            alt={alt}
             onLoad={handleLoaded(false)}
             onError={hanldeErrored(false)}
             loading="lazy"
