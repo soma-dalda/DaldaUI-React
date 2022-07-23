@@ -1,7 +1,7 @@
 {
-  "name": "@jaewoong2/dds",
+  "name": "@jaewoong2/dui",
   "version": "0.0.1",
-  "description": "Dalda Design System for Dalda",
+  "description": "Dalda UI for Dalda",
   "contributors": [
     {
       "name": "@jaewoong2",
@@ -14,7 +14,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jaewoong2/-woongs-dds.git"
+    "url": "git+https://github.com/soma-dalda/DaldaUI-React"
   },
   "license": "MIT",
   "main": "build/index.js",
@@ -99,8 +99,8 @@
     "bracketSpacing": true
   },
   "bugs": {
-    "url": "https://github.com/jaewoong2/-woongs-dds/issues"
+    "url": "https://github.com/soma-dalda/DaldaUI-React/issues"
   },
   "readme": "ERROR: No README data found!",
-  "homepage": "https://github.com/jaewoong2/-woongs-dds#readme"
+  "homepage": "https://github.com/soma-dalda/DaldaUI-React#readme"
 }
