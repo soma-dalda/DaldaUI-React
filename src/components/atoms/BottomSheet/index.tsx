@@ -1,19 +1,10 @@
 import React, { createContext, forwardRef, PropsWithChildren, useContext, useEffect, useState } from 'react'
 import * as Styled from './BottomSheet.styles'
+import { BottomSheetContextType, BottomSheetProps } from './BottomSheet.type'
 
-type InitialValue = {
-  isContentsShow: boolean
-  isBgShow: boolean
-  show: () => void
-  hide: () => void
-  onClickBackGround: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
-  showContents: () => void
-  hideBackground: () => void
-}
-
-const initialValue: InitialValue = {
-  isContentsShow: true,
-  isBgShow: true,
+const initialValue: BottomSheetContextType = {
+  isContentsVisible: true,
+  isBgVisible: true,
   show: () => {},
   hide: () => {},
   showContents: () => {},
@@ -24,22 +15,22 @@ const initialValue: InitialValue = {
 const BottomSheetContext = createContext(initialValue)
 
 const BottomSheetProvider = ({ children }: PropsWithChildren) => {
-  const [isContentsShow, setIsContentsShow] = useState(false)
-  const [isBgShow, setIsBgShow] = useState(false)
+  const [isContentsVisible, setIsContentsVisible] = useState(false)
+  const [isBgVisible, setIsBgVisible] = useState(false)
 
   const onClickBackGround = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (e.currentTarget === e.target) {
-      setIsContentsShow(false)
+      setIsContentsVisible(false)
     }
   }
 
   const show = () => {
-    setIsBgShow(true)
-    setIsContentsShow(true)
+    setIsBgVisible(true)
+    setIsContentsVisible(true)
   }
 
   const hide = () => {
-    setIsContentsShow(false)
+    setIsContentsVisible(false)
   }
 
   return (
@@ -48,10 +39,10 @@ const BottomSheetProvider = ({ children }: PropsWithChildren) => {
         show,
         hide,
         onClickBackGround,
-        isContentsShow,
-        isBgShow,
-        showContents: () => setIsContentsShow(true),
-        hideBackground: () => setIsBgShow(false),
+        isContentsVisible,
+        isBgVisible,
+        showContents: () => setIsContentsVisible(true),
+        hideBackground: () => setIsBgVisible(false),
       }}
     >
       {children}
@@ -59,64 +50,76 @@ const BottomSheetProvider = ({ children }: PropsWithChildren) => {
   )
 }
 
-export type Props = {
-  height: string
-  isShow: boolean
-  setIsShow: (bool: boolean) => void
-}
-
-export const BottomSheet = ({ height, isShow, setIsShow, children }: PropsWithChildren<Props>) => {
+export const BottomSheet = ({
+  height,
+  visible,
+  setVisible,
+  children,
+  background,
+}: PropsWithChildren<BottomSheetProps>) => {
   return (
     <BottomSheetProvider>
-      <BottomSheetContainer setIsShow={setIsShow} isShow={isShow} height={height}>
+      <BottomSheetContainer setVisible={setVisible} visible={visible} height={height} background={background}>
         {children}
       </BottomSheetContainer>
     </BottomSheetProvider>
   )
 }
 
-const BottomSheetContainer = ({ isShow, children, height, setIsShow }: PropsWithChildren<Props>) => {
-  const { isBgShow, onClickBackGround, show } = useContext(BottomSheetContext)
+const BottomSheetContainer = ({
+  visible,
+  children,
+  height,
+  setVisible,
+  background = true,
+}: PropsWithChildren<BottomSheetProps>) => {
+  const { isBgVisible, onClickBackGround, show, hideBackground } = useContext(BottomSheetContext)
 
   useEffect(() => {
-    if (isShow) {
+    if (!background) {
+      hideBackground()
+    }
+  }, [background])
+
+  useEffect(() => {
+    if (visible) {
       show()
-      setIsShow(true)
+      setVisible(true)
     }
-  }, [isShow])
+  }, [visible])
 
   useEffect(() => {
-    if (!isBgShow) {
-      setIsShow(false)
+    if (!isBgVisible) {
+      setVisible(false)
     }
-  }, [isBgShow])
-
-  if (!isShow) {
-    return <></>
-  }
+  }, [isBgVisible])
 
   return (
-    <Styled.BottomSheetContainer onClick={onClickBackGround}>
-      {isBgShow && <BottomSheetContents height={height}>{children}</BottomSheetContents>}
+    <Styled.BottomSheetContainer
+      visible={visible}
+      backgroundVisibile={background ? isBgVisible : false}
+      onClick={onClickBackGround}
+    >
+      {isBgVisible && <BottomSheetContents height={height}>{children}</BottomSheetContents>}
     </Styled.BottomSheetContainer>
   )
 }
 
-const BottomSheetContents = ({ children, height }: PropsWithChildren<Pick<Props, 'height'>>) => {
-  const { isContentsShow, hideBackground } = useContext(BottomSheetContext)
+const BottomSheetContents = ({ children, height }: PropsWithChildren<Pick<BottomSheetProps, 'height'>>) => {
+  const { isContentsVisible, hideBackground } = useContext(BottomSheetContext)
 
   useEffect(() => {
-    if (!isContentsShow) {
+    if (!isContentsVisible) {
       const timer = setTimeout(() => {
         hideBackground()
-      }, 500)
+      }, 300)
 
       return () => clearTimeout(timer)
     }
-  }, [isContentsShow])
+  }, [isContentsVisible])
 
   return (
-    <Styled.BottomSheetContents isContentsShow={isContentsShow} height={height}>
+    <Styled.BottomSheetContents isContentsVisible={isContentsVisible} height={height}>
       {children}
     </Styled.BottomSheetContents>
   )

@@ -26,7 +26,6 @@ const Template: ComponentStory<typeof BottomSheet> = (args) => {
     <div
       style={{
         width: '100%',
-        height: '100vh',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -35,14 +34,15 @@ const Template: ComponentStory<typeof BottomSheet> = (args) => {
       <div
         style={{
           width: '500px',
-          height: '100vh',
+          minHeight: '100vh',
           position: 'relative',
+          boxShadow: `#63636333 0px 2px 8px 0px`,
         }}
       >
         <GalleryTest />
         <button onClick={() => setShow(true)}>hi</button>
 
-        <BottomSheet {...args} setIsShow={(bool) => setShow(bool)} isShow={show}>
+        <BottomSheet {...args} setVisible={(bool) => setShow(bool)} visible={show}>
           <HideButton>&times;</HideButton>
         </BottomSheet>
       </div>
@@ -54,4 +54,10 @@ export const Primary = Template.bind({})
 Primary.args = {
   height: '200px',
   isShow: true,
+}
+
+export const NoBackGround = Template.bind({})
+NoBackGround.args = {
+  height: '200px',
+  background: false,
 }
