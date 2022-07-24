@@ -96,6 +96,9 @@ const BottomSheetContainer = ({
 
   return (
     <Styled.BottomSheetContainer
+      aria-label="bottomsheet"
+      tabIndex={0}
+      role="dialog"
       visible={visible}
       backgroundVisibile={background ? isBgVisible : false}
       onClick={onClickBackGround}
@@ -137,7 +140,7 @@ const BottomSheetHideButton = forwardRef<HTMLButtonElement, React.ButtonHTMLAttr
     }
 
     return (
-      <button onClick={handleButtonClick} ref={ref} {...props}>
+      <button aria-label="bottomsheet close button" onClick={handleButtonClick} ref={ref} {...props}>
         {children}
       </button>
     )
