@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
+import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useRef, useState } from 'react'
 
 import { Image } from '../../atoms'
 import { AnchorContainer, Figure, ImageContainer } from './Gallery.styles'
@@ -9,7 +9,7 @@ import { useIntersectionObserver } from '../../../hooks/useIntersectionObserver'
 import { useWindowResize } from '../../../hooks/useWindowResize'
 
 type GalleryProps = {
-  children?: React.ReactNode
+  isMobile?: boolean
 }
 
 type GalleryContextType = {
@@ -24,11 +24,12 @@ const initialValue: GalleryContextType = {
 
 const GalleryContext = createContext(initialValue)
 
-export const Gallery = ({ children }: GalleryProps) => {
+export const Gallery = ({ children, isMobile }: PropsWithChildren<GalleryProps>) => {
   const ref = useRef<HTMLDivElement>(null)
   const [itemRefs, setItemRefs] = useState<React.RefObject<HTMLAnchorElement>[]>([])
 
   const handleLayout = useCallback(() => {
+    if (isMobile) return
     itemRefs.forEach((itemRef) => {
       if (!itemRef.current || !ref.current) {
         return
@@ -36,7 +37,7 @@ export const Gallery = ({ children }: GalleryProps) => {
       const masonryContainerStyle = getComputedStyle(ref.current)
       itemRef.current.style.gridRowEnd = getGridRowEnd(masonryContainerStyle, itemRef.current)
     })
-  }, [ref, itemRefs])
+  }, [ref, itemRefs, isMobile])
 
   // Trade-off between UX and Performance
   const debouncedFunction = useDebouncedCallback(handleLayout, 0)
@@ -50,7 +51,9 @@ export const Gallery = ({ children }: GalleryProps) => {
     <GalleryContext.Provider
       value={{ addItemRefs: (entitiy) => setItemRefs((prev) => [...prev, entitiy]), handleLayout }}
     >
-      <ImageContainer ref={ref}>{children}</ImageContainer>
+      <ImageContainer size={isMobile ? 'mobile' : undefined} ref={ref}>
+        {children}
+      </ImageContainer>
     </GalleryContext.Provider>
   )
 }

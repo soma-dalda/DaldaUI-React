@@ -2,6 +2,7 @@ import React from 'react'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { Main } from '../index'
 import styled from '@emotion/styled'
+import { GalleryTest } from '../Gallery/Gallery.stories'
 
 export default {
   title: 'Blocks/Main',
@@ -13,6 +14,7 @@ const Section = styled(Main.Section)`
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: scroll;
 `
 
 const Template: ComponentStory<typeof Main> = (args) => {
@@ -28,7 +30,9 @@ const Template: ComponentStory<typeof Main> = (args) => {
     >
       <Main {...args}>
         <Main.Column>
-          <Section shadow={true}>하이</Section>
+          <Section shadow={true}>
+            <GalleryTest isMobile={true} />
+          </Section>
         </Main.Column>
         <Main.Column>
           <Main.Section shadow={false}>하이</Main.Section>

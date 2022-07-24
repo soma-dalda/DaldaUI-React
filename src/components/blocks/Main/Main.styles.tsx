@@ -21,8 +21,9 @@ export const MainWrapper = styled.div<{ isMobile: boolean }>`
 
 export const Column = styled.div<{ visible: boolean }>`
   width: 100%;
-  min-height: 100vh;
+  height: fit-content;
   max-width: ${({ theme }) => theme.breakpoint.width};
+
   ${({ visible }) =>
     !visible &&
     css`
@@ -32,7 +33,8 @@ export const Column = styled.div<{ visible: boolean }>`
 
 export const Section = styled.section<{ shadow?: boolean }>`
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
+  overflow-y: scroll;
   ${({ shadow }) =>
     shadow &&
     css`
