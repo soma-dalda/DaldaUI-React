@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { BottomSheet } from '../index'
 import { GalleryTest } from '../../blocks/Gallery/Gallery.stories'
