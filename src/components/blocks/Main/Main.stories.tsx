@@ -1,12 +1,19 @@
 import React from 'react'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { Main } from '../index'
+import styled from '@emotion/styled'
 
 export default {
-  title: 'Atoms/Main',
+  title: 'Blocks/Main',
   component: Main,
   argTypes: {},
 } as ComponentMeta<typeof Main>
+
+const Section = styled(Main.Section)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
 
 const Template: ComponentStory<typeof Main> = (args) => {
   return (
@@ -20,8 +27,12 @@ const Template: ComponentStory<typeof Main> = (args) => {
       }}
     >
       <Main {...args}>
-        <Main.Column>하이</Main.Column>
-        <Main.Column>하이</Main.Column>
+        <Main.Column>
+          <Section shadow={true}>하이</Section>
+        </Main.Column>
+        <Main.Column>
+          <Main.Section shadow={false}>하이</Main.Section>
+        </Main.Column>
       </Main>
     </div>
   )

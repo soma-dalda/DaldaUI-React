@@ -37,7 +37,7 @@ function MainProvider({ children }: PropsWithChildren) {
   return <MainContext.Provider value={{ isMobile, setIsMobile, columnCount }}>{children}</MainContext.Provider>
 }
 
-export function Main({ children }: PropsWithChildren<Props>) {
+export const Main = ({ children }: PropsWithChildren<Props>) => {
   return (
     <MainProvider>
       <MainContainer>{children}</MainContainer>
@@ -45,7 +45,7 @@ export function Main({ children }: PropsWithChildren<Props>) {
   )
 }
 
-function MainContainer({ children }: PropsWithChildren<Props>) {
+const MainContainer = ({ children }: PropsWithChildren<Props>) => {
   const { isMobile, setIsMobile } = useContext(MainContext)
   const wrapperRef = useRef<HTMLDivElement>(null)
   const [width, setWidth] = useState(0)
@@ -106,3 +106,4 @@ const MainColumn = forwardRef<HTMLDivElement, PropsWithChildren>(({ children }, 
 
 MainColumn.displayName = 'MainColumn'
 Main.Column = MainColumn
+Main.Section = Styled.Section

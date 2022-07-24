@@ -28,5 +28,14 @@ export const Column = styled.div<{ visible: boolean }>`
     css`
       display: none;
     `}
-  border: 1px solid green;
+`
+
+export const Section = styled.section<{ shadow?: boolean }>`
+  width: 100%;
+  min-height: 100vh;
+  ${({ shadow }) =>
+    shadow &&
+    css`
+      box-shadow: #63636333 0px 2px 8px 0px;
+    `}
 `
