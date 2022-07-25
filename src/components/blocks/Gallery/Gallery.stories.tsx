@@ -1,10 +1,9 @@
 import React from 'react'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { Gallery } from '../index'
-import { Image } from '../../atoms'
 
 const shortSrc =
-  'https://i.ytimg.com/vi/aXTkswSxmQs/hqdefault.jpg?sqp=-oaymwEcCOADEI4CSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAjCTJCXnvHyV7fVOinaHDnHwvCgw'
+  'https://images.unsplash.com/photo-1658594555053-ff7314462869?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80'
 
 const longSrc = 'https://i.pinimg.com/originals/b5/df/7c/b5df7c3f59cfc4508ab53ce31cfffe71.jpg'
 export default {

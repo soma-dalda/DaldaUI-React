@@ -40,16 +40,19 @@ export const Gallery = ({ children, isMobile }: PropsWithChildren<GalleryProps>)
   }, [ref, itemRefs, isMobile])
 
   // Trade-off between UX and Performance
-  const debouncedFunction = useDebouncedCallback(handleLayout, 0)
+  const debouncedFunction = useDebouncedCallback(handleLayout, 200)
   useWindowResize(debouncedFunction, [ref.current, itemRefs, debouncedFunction])
 
   useEffect(() => {
-    debouncedFunction()
+    handleLayout()
   }, [ref, itemRefs, debouncedFunction])
 
   return (
     <GalleryContext.Provider
-      value={{ addItemRefs: (entitiy) => setItemRefs((prev) => [...prev, entitiy]), handleLayout }}
+      value={{
+        addItemRefs: (entitiy) => setItemRefs((prev) => [...prev, entitiy]),
+        handleLayout: debouncedFunction,
+      }}
     >
       <ImageContainer size={isMobile ? 'mobile' : undefined} ref={ref}>
         {children}
@@ -66,14 +69,13 @@ const GalleryImage = ({ src, children, href }: React.ImgHTMLAttributes<HTMLImage
   const imageRef = useRef<HTMLImageElement>(null)
 
   const [entry, observer] = useIntersectionObserver(imageRef)
-  const debouncedHandleLayout = useDebouncedCallback(handleLayout, 200)
 
   useEffect(() => {
     if (entry?.isIntersecting) {
       const target = entry.target as HTMLImageElement
       setImageSrc(target.dataset.src)
       observer?.unobserve(entry.target)
-      debouncedHandleLayout()
+      handleLayout()
     }
   }, [entry, observer])
 

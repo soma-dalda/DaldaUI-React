@@ -10,6 +10,7 @@ import React, {
   useState,
 } from 'react'
 import { useDebouncedCallback } from '../../../hooks/useDebounce'
+import { useMobile } from '../../../hooks/useMobile'
 import { useWindowResize } from '../../../hooks/useWindowResize'
 import { breakpoint } from '../../../styles/theme/constant'
 import * as Styled from './Main.styles'
@@ -30,18 +31,14 @@ const initialValue: MainContextType = {
 
 const MainContext = createContext(initialValue)
 
-function MainProvider({ children }: PropsWithChildren) {
+export const Main = ({ children }: PropsWithChildren<Props>) => {
   const columnCount = useRef(0)
   const [isMobile, setIsMobile] = useState(false)
 
-  return <MainContext.Provider value={{ isMobile, setIsMobile, columnCount }}>{children}</MainContext.Provider>
-}
-
-export const Main = ({ children }: PropsWithChildren<Props>) => {
   return (
-    <MainProvider>
+    <MainContext.Provider value={{ isMobile, setIsMobile, columnCount }}>
       <MainContainer>{children}</MainContainer>
-    </MainProvider>
+    </MainContext.Provider>
   )
 }
 
@@ -50,13 +47,13 @@ const MainContainer = ({ children }: PropsWithChildren<Props>) => {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const [width, setWidth] = useState(0)
 
-  const getWidth = useCallback(() => {
+  const getClientRect = useCallback(() => {
     if (wrapperRef && wrapperRef.current?.offsetWidth) {
       setWidth(wrapperRef.current?.offsetWidth)
     }
   }, [wrapperRef])
 
-  const debouncedGetWidth = useDebouncedCallback(getWidth, 200)
+  const debouncedGetWidth = useDebouncedCallback(getClientRect, 200)
 
   useWindowResize(debouncedGetWidth)
   useEffect(() => {
@@ -80,30 +77,33 @@ const MainContainer = ({ children }: PropsWithChildren<Props>) => {
   )
 }
 
-const MainColumn = forwardRef<HTMLDivElement, PropsWithChildren>(({ children }, ref) => {
-  const [visible, setVisible] = useState(true)
-  const { isMobile, columnCount } = useContext(MainContext)
+const MainColumn = forwardRef<HTMLDivElement, PropsWithChildren<React.DetailsHTMLAttributes<HTMLDivElement>>>(
+  ({ children, ...props }, ref) => {
+    const [visible, setVisible] = useState(true)
+    const { isMobile, columnCount } = useContext(MainContext)
+    const { isMobile: IsDeviceMobile } = useMobile()
 
-  useEffect(() => {
-    if (columnCount?.current === 1) {
-      setVisible(false)
-    }
-  }, [])
+    useEffect(() => {
+      if (columnCount?.current === 1) {
+        setVisible(false)
+      }
+    }, [])
 
-  useEffect(() => {
-    if (columnCount && columnCount.current === 0) {
-      columnCount.current += 1
-      setVisible(true)
-    }
-  }, [columnCount])
+    useEffect(() => {
+      if (columnCount && columnCount.current === 0) {
+        columnCount.current += 1
+        setVisible(true)
+      }
+    }, [columnCount])
 
-  return (
-    <Styled.Column ref={ref} visible={isMobile ? visible : true}>
-      {children}
-    </Styled.Column>
-  )
-})
+    return (
+      <Styled.Column ref={ref} visible={isMobile ? visible : true} isMobile={IsDeviceMobile()} {...props}>
+        {children}
+      </Styled.Column>
+    )
+  },
+)
 
 MainColumn.displayName = 'MainColumn'
-Main.Column = MainColumn
 Main.Section = Styled.Section
+Main.Column = MainColumn
