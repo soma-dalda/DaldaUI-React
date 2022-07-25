@@ -1,4 +1,5 @@
 import React, { createContext, forwardRef, PropsWithChildren, useContext, useEffect, useState } from 'react'
+import { useBottomSheet } from '../../../hooks/useBottomSheet'
 import * as Styled from './BottomSheet.styles'
 import { BottomSheetContextType, BottomSheetProps } from './BottomSheet.type'
 
@@ -73,7 +74,9 @@ const BottomSheetContainer = ({
   setVisible,
   background = true,
 }: PropsWithChildren<BottomSheetProps>) => {
-  const { isBgVisible, onClickBackGround, show, hideBackground } = useContext(BottomSheetContext)
+  const { isBgVisible, onClickBackGround, show, hideBackground, hide } = useContext(BottomSheetContext)
+  const { handleDragEnd, handleTouchEnd, handleTouchMove, handleTouchStart, handleDrag, handleDragStart } =
+    useBottomSheet(hide)
 
   useEffect(() => {
     if (!background) {
@@ -99,6 +102,13 @@ const BottomSheetContainer = ({
       aria-label="bottomsheet"
       tabIndex={0}
       role="dialog"
+      draggable={true}
+      onDrag={handleDrag}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
       visible={visible}
       backgroundVisibile={background ? isBgVisible : false}
       onClick={onClickBackGround}
@@ -123,6 +133,12 @@ const BottomSheetContents = ({ children, height }: PropsWithChildren<Pick<Bottom
 
   return (
     <Styled.BottomSheetContents isContentsVisible={isContentsVisible} height={height}>
+      <Styled.BottomSheetContoller
+        tabIndex={0}
+        onDrag={() => {
+          console.log('hi')
+        }}
+      />
       {children}
     </Styled.BottomSheetContents>
   )

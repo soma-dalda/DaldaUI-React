@@ -37,6 +37,7 @@ export const BottomSheetContainer = styled.div<{ visible: boolean; backgroundVis
 `
 
 export const BottomSheetContents = styled.div<Pick<BottomSheetProps, 'height'> & { isContentsVisible: boolean }>`
+  position: relative;
   max-width: ${({ theme }) => theme.breakpoint.width};
   width: calc(100% - 20px);
   height: ${({ height }) => height};
@@ -51,4 +52,16 @@ export const BottomSheetContents = styled.div<Pick<BottomSheetProps, 'height'> &
       transition: height 300ms linear;
     `}
   box-shadow: rgba(17, 17, 26, 0.1) 0px -2px 16px;
+`
+
+export const BottomSheetContoller = styled.div`
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 4px;
+  border-radius: 50px;
+  background-color: #696969cb;
+  cursor: pointer;
 `
