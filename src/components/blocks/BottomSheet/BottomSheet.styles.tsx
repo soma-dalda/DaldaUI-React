@@ -1,16 +1,6 @@
-import { css, keyframes } from '@emotion/react'
+import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { BottomSheetProps } from './BottomSheet.type'
-
-const heightAnimation = (height: string) => keyframes`
-  0% {
-    height: 0px;
-  }
-
-  100% {
-    height: ${height};
-  }
-`
 
 export const BottomSheetContainer = styled.div<{ visible: boolean; backgroundVisibile: boolean }>`
   display: ${({ visible }) => (visible ? 'flex' : 'none')};
