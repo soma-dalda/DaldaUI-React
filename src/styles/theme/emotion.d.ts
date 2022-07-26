@@ -1,5 +1,5 @@
 import '@emotion/react'
-import { color, borderRadius } from './constant'
+import { color, borderRadius, breakpoint } from './constant'
 
 declare module '@emotion/react' {
   export interface Theme {

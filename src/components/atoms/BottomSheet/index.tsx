@@ -1,4 +1,6 @@
 import React, { createContext, forwardRef, PropsWithChildren, useContext, useEffect, useState } from 'react'
+import { useBottomSheet } from '../../../hooks/useBottomSheet'
+import { useBottomSheetHeight } from '../../../hooks/useBottomSheetHeight'
 import * as Styled from './BottomSheet.styles'
 import { BottomSheetContextType, BottomSheetProps } from './BottomSheet.type'
 
@@ -14,7 +16,14 @@ const initialValue: BottomSheetContextType = {
 
 const BottomSheetContext = createContext(initialValue)
 
-const BottomSheetProvider = ({ children }: PropsWithChildren) => {
+export const BottomSheet = ({
+  defaultHeight,
+  visible,
+  setVisible,
+  children,
+  background,
+  animation,
+}: PropsWithChildren<BottomSheetProps>) => {
   const [isContentsVisible, setIsContentsVisible] = useState(false)
   const [isBgVisible, setIsBgVisible] = useState(false)
 
@@ -45,36 +54,43 @@ const BottomSheetProvider = ({ children }: PropsWithChildren) => {
         hideBackground: () => setIsBgVisible(false),
       }}
     >
-      {children}
-    </BottomSheetContext.Provider>
-  )
-}
-
-export const BottomSheet = ({
-  height,
-  visible,
-  setVisible,
-  children,
-  background,
-}: PropsWithChildren<BottomSheetProps>) => {
-  return (
-    <BottomSheetProvider>
-      <BottomSheetContainer setVisible={setVisible} visible={visible} height={height} background={background}>
+      <BottomSheetContainer
+        setVisible={setVisible}
+        visible={visible}
+        defaultHeight={defaultHeight}
+        background={background}
+        animation={animation}
+      >
         {children}
       </BottomSheetContainer>
-    </BottomSheetProvider>
+    </BottomSheetContext.Provider>
   )
 }
 
 const BottomSheetContainer = ({
   visible,
   children,
-  height,
+  defaultHeight,
   setVisible,
+  animation = true,
   background = true,
 }: PropsWithChildren<BottomSheetProps>) => {
-  const { isBgVisible, onClickBackGround, show, hideBackground } = useContext(BottomSheetContext)
+  const [height, setHeight] = useState<string | null>(null)
+  const { isBgVisible, onClickBackGround, show, hideBackground, hide } = useContext(BottomSheetContext)
+  const { fail, onChange, success } = useBottomSheetHeight(setHeight, defaultHeight)
 
+  const { handleDragEnd, handleTouchEnd, handleTouchMove, handleTouchStart, handleDrag, handleDragStart } =
+    useBottomSheet(
+      () => {
+        hide()
+        success()
+      },
+      onChange,
+      fail,
+      animation,
+    )
+
+  // 백그라운드 Props로 설정을 하지 않으면, 백그라운드 (scrim) off
   useEffect(() => {
     if (!background) {
       hideBackground()
@@ -99,30 +115,49 @@ const BottomSheetContainer = ({
       aria-label="bottomsheet"
       tabIndex={0}
       role="dialog"
+      draggable={true}
       visible={visible}
       backgroundVisibile={background ? isBgVisible : false}
       onClick={onClickBackGround}
     >
-      {isBgVisible && <BottomSheetContents height={height}>{children}</BottomSheetContents>}
+      {isBgVisible && (
+        <BottomSheetContents defaultHeight={height ?? defaultHeight}>
+          <Styled.BottomSheetContoller
+            tabIndex={0}
+            draggable={true}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            onDrag={handleDrag}
+            onDragOver={handleDrag}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+          />
+          {children}
+        </BottomSheetContents>
+      )}
     </Styled.BottomSheetContainer>
   )
 }
 
-const BottomSheetContents = ({ children, height }: PropsWithChildren<Pick<BottomSheetProps, 'height'>>) => {
+const BottomSheetContents = ({
+  children,
+  defaultHeight,
+}: PropsWithChildren<Pick<BottomSheetProps, 'defaultHeight'>>) => {
   const { isContentsVisible, hideBackground } = useContext(BottomSheetContext)
 
   useEffect(() => {
     if (!isContentsVisible) {
       const timer = setTimeout(() => {
         hideBackground()
-      }, 300)
+      }, 100)
 
       return () => clearTimeout(timer)
     }
   }, [isContentsVisible])
 
   return (
-    <Styled.BottomSheetContents isContentsVisible={isContentsVisible} height={height}>
+    <Styled.BottomSheetContents isContentsVisible={isContentsVisible} defaultHeight={defaultHeight}>
       {children}
     </Styled.BottomSheetContents>
   )
@@ -140,7 +175,7 @@ const BottomSheetHideButton = forwardRef<HTMLButtonElement, React.ButtonHTMLAttr
     }
 
     return (
-      <button aria-label="bottomsheet close button" onClick={handleButtonClick} ref={ref} {...props}>
+      <button aria-label="bottomsheet close" onClick={handleButtonClick} ref={ref} {...props}>
         {children}
       </button>
     )

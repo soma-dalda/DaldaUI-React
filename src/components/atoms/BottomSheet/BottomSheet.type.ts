@@ -9,9 +9,10 @@ export type BottomSheetContextType = {
 }
 
 export type BottomSheetProps = {
-  height: string
+  defaultHeight: string
   visible: boolean
   setVisible: (bool: boolean) => void
   borderRaduis?: string
+  animation?: boolean
   background?: boolean
 }

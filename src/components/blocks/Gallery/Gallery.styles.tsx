@@ -1,8 +1,35 @@
+import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 
-export const ImageContainer = styled.div`
+const getColumn = (size?: 'desktop' | 'tablet' | 'mobile') => {
+  switch (size) {
+    case 'desktop':
+      return css`
+        grid-template-columns: repeat(3, 1fr);
+      `
+    case 'tablet':
+      return css`
+        grid-template-columns: repeat(2, 1fr);
+      `
+    case 'mobile':
+      return css`
+        grid-template-columns: none;
+        width: 100%;
+        display: block;
+
+        .figure {
+          margin-bottom: var(--gap);
+          width: 100%;
+          height: auto;
+        }
+      `
+  }
+}
+
+export const ImageContainer = styled.div<{ size?: 'desktop' | 'tablet' | 'mobile' }>`
   --gap: 10px;
   width: 100%;
+  height: 100%;
 
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -21,6 +48,8 @@ export const ImageContainer = styled.div`
     display: block;
     width: 100%;
   }
+
+  ${({ size }) => getColumn(size)}
 `
 
 export const AnchorContainer = styled.a`

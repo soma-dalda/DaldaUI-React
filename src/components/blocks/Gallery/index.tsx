@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
+import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useRef, useState } from 'react'
 
 import { Image } from '../../atoms'
 import { AnchorContainer, Figure, ImageContainer } from './Gallery.styles'
@@ -7,15 +7,7 @@ import { getGridRowEnd } from './utils'
 import { useDebouncedCallback } from '../../../hooks/useDebounce'
 import { useIntersectionObserver } from '../../../hooks/useIntersectionObserver'
 import { useWindowResize } from '../../../hooks/useWindowResize'
-
-type GalleryProps = {
-  children?: React.ReactNode
-}
-
-type GalleryContextType = {
-  addItemRefs: (entitiy: React.RefObject<HTMLAnchorElement>) => void
-  handleLayout: () => void
-}
+import { GalleryContextType, GalleryProps } from './Gallery.type'
 
 const initialValue: GalleryContextType = {
   addItemRefs: () => {},
@@ -24,11 +16,12 @@ const initialValue: GalleryContextType = {
 
 const GalleryContext = createContext(initialValue)
 
-export const Gallery = ({ children }: GalleryProps) => {
+export const Gallery = ({ children, isMobile }: PropsWithChildren<GalleryProps>) => {
   const ref = useRef<HTMLDivElement>(null)
   const [itemRefs, setItemRefs] = useState<React.RefObject<HTMLAnchorElement>[]>([])
 
   const handleLayout = useCallback(() => {
+    if (isMobile) return
     itemRefs.forEach((itemRef) => {
       if (!itemRef.current || !ref.current) {
         return
@@ -36,41 +29,49 @@ export const Gallery = ({ children }: GalleryProps) => {
       const masonryContainerStyle = getComputedStyle(ref.current)
       itemRef.current.style.gridRowEnd = getGridRowEnd(masonryContainerStyle, itemRef.current)
     })
-  }, [ref, itemRefs])
+  }, [ref, itemRefs, isMobile])
 
   // Trade-off between UX and Performance
-  const debouncedFunction = useDebouncedCallback(handleLayout, 0)
+  const debouncedFunction = useDebouncedCallback(handleLayout, 200)
   useWindowResize(debouncedFunction, [ref.current, itemRefs, debouncedFunction])
 
   useEffect(() => {
-    debouncedFunction()
+    handleLayout()
   }, [ref, itemRefs, debouncedFunction])
 
   return (
     <GalleryContext.Provider
-      value={{ addItemRefs: (entitiy) => setItemRefs((prev) => [...prev, entitiy]), handleLayout }}
+      value={{
+        addItemRefs: (entitiy) => setItemRefs((prev) => [...prev, entitiy]),
+        handleLayout: debouncedFunction,
+      }}
     >
-      <ImageContainer ref={ref}>{children}</ImageContainer>
+      <ImageContainer size={isMobile ? 'mobile' : undefined} ref={ref}>
+        {children}
+      </ImageContainer>
     </GalleryContext.Provider>
   )
 }
 
+// Gallery.Image, It can be setted in <Gallery></Gallery>
 const GalleryImage = ({ src, children, href }: React.ImgHTMLAttributes<HTMLImageElement> & { href?: string }) => {
   const { addItemRefs, handleLayout } = useContext(GalleryContext)
   const [imageSrc, setImageSrc] = useState<string>()
 
+  // Ref for Gallery Entities State
   const ref = useRef<HTMLAnchorElement>(null)
+
+  // Ref for Intersection Obeserver
   const imageRef = useRef<HTMLImageElement>(null)
 
   const [entry, observer] = useIntersectionObserver(imageRef)
-  const debouncedHandleLayout = useDebouncedCallback(handleLayout, 200)
 
   useEffect(() => {
     if (entry?.isIntersecting) {
       const target = entry.target as HTMLImageElement
       setImageSrc(target.dataset.src)
       observer?.unobserve(entry.target)
-      debouncedHandleLayout()
+      handleLayout()
     }
   }, [entry, observer])
 
