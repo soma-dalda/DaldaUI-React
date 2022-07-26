@@ -77,7 +77,7 @@ const Template: ComponentStory<typeof Main> = (args) => {
             </header>
             <GalleryTest isMobile={true} />
 
-            <BottomSheet height="80%" setVisible={setVisible} visible={visible}>
+            <BottomSheet defaultHeight="80%" setVisible={setVisible} visible={visible}>
               안녕하세요
             </BottomSheet>
           </Section>
