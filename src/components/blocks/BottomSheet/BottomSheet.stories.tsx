@@ -5,7 +5,7 @@ import { GalleryTest } from '../../blocks/Gallery/Gallery.stories'
 import styled from '@emotion/styled'
 
 export default {
-  title: 'Atoms/BottomSheet',
+  title: 'Blocks/BottomSheet',
   component: BottomSheet,
   argTypes: {},
 } as ComponentMeta<typeof BottomSheet>

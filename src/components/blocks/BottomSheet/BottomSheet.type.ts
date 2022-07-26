@@ -16,3 +16,8 @@ export type BottomSheetProps = {
   animation?: boolean
   background?: boolean
 }
+
+export type BottomSheetStyledProps = {
+  isContentsVisible?: boolean
+  delay?: number
+}

@@ -1,6 +1,26 @@
-import { css } from '@emotion/react'
+import { css, keyframes } from '@emotion/react'
 import styled from '@emotion/styled'
-import { BottomSheetProps } from './BottomSheet.type'
+import { BottomSheetProps, BottomSheetStyledProps } from './BottomSheet.type'
+
+const popup = keyframes`
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+`
+
+const popdown = keyframes`
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(100%);
+  }
+`
 
 export const BottomSheetContainer = styled.div<{ visible: boolean; backgroundVisibile: boolean }>`
   display: ${({ visible }) => (visible ? 'flex' : 'none')};
@@ -26,7 +46,7 @@ export const BottomSheetContainer = styled.div<{ visible: boolean; backgroundVis
   transition: background 200ms;
 `
 
-export const BottomSheetContents = styled.div<Pick<BottomSheetProps, 'defaultHeight'> & { isContentsVisible: boolean }>`
+export const BottomSheetContents = styled.div<Pick<BottomSheetProps, 'defaultHeight'> & BottomSheetStyledProps>`
   position: relative;
   max-width: ${({ theme }) => theme.breakpoint.width};
   width: calc(100% - 20px);
@@ -34,14 +54,7 @@ export const BottomSheetContents = styled.div<Pick<BottomSheetProps, 'defaultHei
   background-color: white;
   border-radius: ${({ theme }) => theme.borderRadius.bottomSheet};
   padding: 20px 10px;
-
-  ${({ isContentsVisible }) =>
-    !isContentsVisible &&
-    css`
-      height: 0px;
-      transition: height 100ms linear;
-    `}
-
+  animation: ${({ isContentsVisible }) => (isContentsVisible ? popup : popdown)} ${({ delay }) => delay}ms;
   box-shadow: rgba(17, 17, 26, 0.1) 0px -2px 16px;
 `
 

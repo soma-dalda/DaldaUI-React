@@ -52,7 +52,7 @@ export const useBottomSheet = (
   const handleTouchMove = useCallback(snapDownLogic, [snapDownLogic])
 
   const handleEnd = () => {
-    if (record.current.first + 100 < record.current.process) {
+    if (record.current.first + 50 < record.current.process) {
       record.current.first = 0
       record.current.process = 0
       closeModal()

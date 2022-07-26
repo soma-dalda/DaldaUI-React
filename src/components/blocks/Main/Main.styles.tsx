@@ -3,8 +3,8 @@ import styled from '@emotion/styled'
 
 export const MainContainer = styled.div`
   width: 100%;
-  display: flex;
   height: 100%;
+  display: flex;
   justify-content: center;
 `
 
@@ -12,6 +12,7 @@ export const MainWrapper = styled.div<{ isMobile: boolean }>`
   width: 100%;
   max-width: ${({ theme }) => theme.breakpoint.maxWidth};
   display: flex;
+  min-height: 100vh;
   height: 100%;
 
   ${({ isMobile }) =>
@@ -25,6 +26,7 @@ export const Column = styled.div<{ visible: boolean; isMobile: boolean }>`
   width: 100%;
   max-width: ${({ theme }) => theme.breakpoint.width};
   height: 100%;
+  min-height: 100vh;
 
   ${({ visible }) =>
     !visible &&
@@ -40,10 +42,6 @@ export const Column = styled.div<{ visible: boolean; isMobile: boolean }>`
 `
 
 export const Section = styled.section<{ shadow?: boolean }>`
-  width: 100%;
-  overflow-y: auto;
-  height: 100%;
-
   ${({ shadow }) =>
     shadow &&
     css`

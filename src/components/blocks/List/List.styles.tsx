@@ -4,13 +4,13 @@ import { ListProps } from '.'
 const List = styled.ul<ListProps>`
   width: ${({ width }) => width ?? '100%'};
   height: ${({ height }) => height ?? 'auto'};
-  display: grid;
-  grid-template-columns: 0.4fr 60%;
+  display: flex;
+  flex-direction: column;
   gap: 10px;
 
   img {
     border-radius: 8px;
-    width: auto;
+    width: 100%;
     height: ${({ height }) => height};
   }
 `
