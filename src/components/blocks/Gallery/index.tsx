@@ -7,15 +7,7 @@ import { getGridRowEnd } from './utils'
 import { useDebouncedCallback } from '../../../hooks/useDebounce'
 import { useIntersectionObserver } from '../../../hooks/useIntersectionObserver'
 import { useWindowResize } from '../../../hooks/useWindowResize'
-
-type GalleryProps = {
-  isMobile?: boolean
-}
-
-type GalleryContextType = {
-  addItemRefs: (entitiy: React.RefObject<HTMLAnchorElement>) => void
-  handleLayout: () => void
-}
+import { GalleryContextType, GalleryProps } from './Gallery.type'
 
 const initialValue: GalleryContextType = {
   addItemRefs: () => {},
@@ -61,11 +53,15 @@ export const Gallery = ({ children, isMobile }: PropsWithChildren<GalleryProps>)
   )
 }
 
+// Gallery.Image, It can be setted in <Gallery></Gallery>
 const GalleryImage = ({ src, children, href }: React.ImgHTMLAttributes<HTMLImageElement> & { href?: string }) => {
   const { addItemRefs, handleLayout } = useContext(GalleryContext)
   const [imageSrc, setImageSrc] = useState<string>()
 
+  // Ref for Gallery Entities State
   const ref = useRef<HTMLAnchorElement>(null)
+
+  // Ref for Intersection Obeserver
   const imageRef = useRef<HTMLImageElement>(null)
 
   const [entry, observer] = useIntersectionObserver(imageRef)
