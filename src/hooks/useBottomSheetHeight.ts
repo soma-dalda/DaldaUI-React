@@ -3,7 +3,7 @@ export const useBottomSheetHeight = (setHeight: (h: string) => void, defaultHeig
     setHeight(defaultHeight)
   }
 
-  const onChangeCallback = (e: React.DragEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
+  const onChangeCallback = (e: React.DragEvent | React.TouchEvent | React.MouseEvent) => {
     if (e.type === 'drag') {
       const event = e as React.DragEvent<HTMLDivElement>
       setHeight(`calc(100% - ${event.clientY}px)`)

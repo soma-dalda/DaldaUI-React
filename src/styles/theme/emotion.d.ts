@@ -6,5 +6,6 @@ declare module '@emotion/react' {
     color: typeof color
     breakpoint: typeof breakpoint
     borderRadius: typeof borderRadius
+    isMobile: boolean
   }
 }

@@ -1,9 +1,9 @@
-import { useCallback, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useThrottle } from './useThrottle'
 
 export const useBottomSheet = (
   closeModal: () => void,
-  onChangeDrag?: (e: React.DragEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => void,
+  callback?: (e: React.DragEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement> | React.MouseEvent) => void,
   fail?: () => void,
   animation?: boolean,
 ) => {
@@ -17,7 +17,6 @@ export const useBottomSheet = (
       handleDrag: undefined,
     }
   }
-
   const record = useRef({
     first: 0,
     process: 0,
@@ -31,10 +30,10 @@ export const useBottomSheet = (
   }
 
   const handleDrag = (e: React.DragEvent<HTMLDivElement>) => {
-    if (typeof onChangeDrag === 'function') {
-      onChangeDrag(e)
-    }
     e.preventDefault()
+    if (typeof callback === 'function') {
+      callback(e)
+    }
     record.current.process = e.clientY
   }
 
@@ -43,8 +42,8 @@ export const useBottomSheet = (
   }
 
   const snapDownLogic = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (typeof onChangeDrag === 'function') {
-      onChangeDrag(e)
+    if (typeof callback === 'function') {
+      callback(e)
     }
     record.current.process = e.touches[0].screenY
   }
@@ -56,9 +55,9 @@ export const useBottomSheet = (
       record.current.first = 0
       record.current.process = 0
       closeModal()
-
       return
     }
+
     if (typeof fail === 'function') {
       fail()
     }

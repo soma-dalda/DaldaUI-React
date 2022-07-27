@@ -42,6 +42,7 @@ export const Column = styled.div<{ visible: boolean; isMobile: boolean }>`
 `
 
 export const Section = styled.section<{ shadow?: boolean }>`
+  overflow-x: hidden;
   ${({ shadow }) =>
     shadow &&
     css`

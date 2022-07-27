@@ -18,16 +18,15 @@ export const BottomSheetContainer = ({
   const { isBgVisible, onClickBackGround, show, hideBackground, hide } = useContext(BottomSheetContext)
   const { fail, onChange, success } = useBottomSheetHeight(setHeight, defaultHeight)
 
-  const { handleDragEnd, handleTouchEnd, handleTouchMove, handleTouchStart, handleDrag, handleDragStart } =
-    useBottomSheet(
-      () => {
-        hide()
-        success()
-      },
-      onChange,
-      fail,
-      animation,
-    )
+  const { handleTouchEnd, handleTouchMove, handleTouchStart } = useBottomSheet(
+    () => {
+      hide()
+      success()
+    },
+    onChange,
+    fail,
+    animation,
+  )
 
   // 백그라운드 Props로 설정을 하지 않으면, 백그라운드 (scrim) off
   useEffect(() => {
@@ -63,14 +62,10 @@ export const BottomSheetContainer = ({
         <BottomSheetContents defaultHeight={height ?? defaultHeight}>
           <Styled.BottomSheetContoller
             tabIndex={0}
-            draggable={true}
+            draggable={false}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
-            onDrag={handleDrag}
-            onDragOver={handleDrag}
-            onDragStart={handleDragStart}
-            onDragEnd={handleDragEnd}
           />
           {children}
         </BottomSheetContents>

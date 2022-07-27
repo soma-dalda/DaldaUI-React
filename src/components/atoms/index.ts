@@ -1,3 +1,5 @@
 export { Image } from './Image'
-export { Skeleton } from './Skeleton'
 export { Search } from './Search'
+export { Button } from './Button'
+export { Skeleton } from './Skeleton'
+export { Footer, FooterDalda } from './Footer'

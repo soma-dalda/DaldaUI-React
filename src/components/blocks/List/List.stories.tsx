@@ -39,7 +39,7 @@ const Template: ComponentStory<typeof List> = (args) => {
 export const Primary = Template.bind({})
 Primary.args = {
   width: '100%',
-  height: '100px',
+  height: 'auto',
   children: (
     <MapListsTemplate
       address="서울특별시 삼성동 3204-2"
@@ -53,7 +53,7 @@ Primary.args = {
 export const ManyLists = Template.bind({})
 ManyLists.args = {
   width: '100%',
-  height: '100px',
+  height: 'auto',
   children: (
     <>
       <MapListsTemplate

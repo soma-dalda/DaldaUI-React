@@ -13,10 +13,10 @@ export const color = {
 
 export const breakpoint = {
   maxWidth: '1024px',
-  width: '500px',
+  width: '450px',
   num: {
     maxWidth: 1024,
-    width: 500,
+    width: 450,
   },
 }
 

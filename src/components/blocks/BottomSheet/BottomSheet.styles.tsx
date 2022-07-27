@@ -29,7 +29,7 @@ export const BottomSheetContainer = styled.div<{ visible: boolean; backgroundVis
   left: 0;
   width: 100%;
   height: 100%;
-  max-width: ${({ theme }) => theme.breakpoint.width};
+  max-width: ${({ theme }) => (theme.isMobile ? '100%' : theme.breakpoint.width)};
 
   flex-direction: column;
   justify-content: flex-end;
@@ -47,15 +47,16 @@ export const BottomSheetContainer = styled.div<{ visible: boolean; backgroundVis
 `
 
 export const BottomSheetContents = styled.div<Pick<BottomSheetProps, 'defaultHeight'> & BottomSheetStyledProps>`
-  position: relative;
-  max-width: ${({ theme }) => theme.breakpoint.width};
-  width: calc(100% - 20px);
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  max-width: ${({ theme }) => (theme.isMobile ? '100%' : theme.breakpoint.width)};
   height: ${({ defaultHeight }) => defaultHeight};
   background-color: white;
   border-radius: ${({ theme }) => theme.borderRadius.bottomSheet};
-  padding: 20px 10px;
   animation: ${({ isContentsVisible }) => (isContentsVisible ? popup : popdown)} ${({ delay }) => delay}ms;
   box-shadow: rgba(17, 17, 26, 0.1) 0px -2px 16px;
+  z-index: 9999;
 `
 
 export const BottomSheetContoller = styled.div`
