@@ -2,3 +2,4 @@ export { Button, Footer, FooterDalda, Image, Search, Skeleton } from './componen
 export { BottomSheet, Gallery, List, Main } from './components/blocks'
 export { HamburgerIcon, SearchLineIcon } from './components/icons'
 export { LOGO_URL } from './assets/index'
+export { DUIThemeProvider } from './styles/theme/ThemeProvider'
